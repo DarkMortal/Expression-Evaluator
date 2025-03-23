@@ -62,4 +62,5 @@ Evaluating : cos(0.28)
 Evaluating : -0.82 + 0.96
 Result: 0.1409
 ```
+Click here to access the [documentation](https://darkmortal.github.io/Expression-Evaluator/)
 ***
