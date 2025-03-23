@@ -41,10 +41,44 @@
 	</developers>
 
 	<distributionManagement>
-	   <repository>
-	     <id>github</id>
-	     <name>Saptarshi Dey Apache Maven Packages in GitHub registry</name>
-	     <url>https://maven.pkg.github.com/DarkMortal/Expression-Evaluator</url>
-	   </repository>
+		   <repository>
+			     <id>github</id>
+			     <name>Saptarshi Dey Apache Maven Packages in GitHub registry</name>
+			     <url>https://maven.pkg.github.com/DarkMortal/Expression-Evaluator</url>
+		   </repository>
 	</distributionManagement>
+
+	<build>
+		  <finalName>${project.artifactId}-${project.version}</finalName>
+		  <sourceDirectory>src</sourceDirectory>
+		  <testSourceDirectory>test</testSourceDirectory>
+		  <resources>
+			    <resource>
+				      <directory>src</directory>
+				      <excludes>
+				        <exclude>**/*.java</exclude>
+				      </excludes>
+			    </resource>
+		  </resources>
+			  <testResources>
+				    <testResource>
+					      <directory>test</directory>
+					      <excludes>
+					        <exclude>**/*.java</exclude>
+					      </excludes>
+				    </testResource>
+			  </testResources>
+		  <plugins>
+			    <plugin>
+				      <groupId>org.apache.maven.plugins</groupId>
+				      <artifactId>maven-compiler-plugin</artifactId>
+				      <version>${maven-compiler-plugin.version}</version>
+				      <configuration>
+					        <source>${maven.compiler.source}</source>
+					        <target>${maven.compiler.target}</target>
+				      </configuration>
+			    </plugin>
+		  </plugins>
+	
+	</build>
 </project>
