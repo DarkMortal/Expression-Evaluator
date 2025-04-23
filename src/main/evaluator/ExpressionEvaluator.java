@@ -6,18 +6,18 @@ import complex.Complex;
 /**
  * Implementation of the Evaluator interface
  * @author Saptarshi Dey
- * @since March 2025
+ * @since April 2025
  * @version 1.0
  */
 
 public class ExpressionEvaluator implements Evaluator {
     private Map<String, Complex> variables;
-    
+
     /**
      * Default constructor
      */
     public ExpressionEvaluator() {
-    	this.variables = new HashMap<>();
+        this.variables = new HashMap<>();
     }
     /** Parameterised constructor
      * @param variables_ Map Object representing variables to be used while evaluating any function
@@ -31,7 +31,7 @@ public class ExpressionEvaluator implements Evaluator {
      * @param value Value of th variable
      */
     public void setVariable(String variable, Complex value) {
-    	this.variables.put(variable, value);
+        this.variables.put(variable, value);
     }
     /**
      * Setter for the <b>variables</b> Map Object for real values
@@ -39,7 +39,7 @@ public class ExpressionEvaluator implements Evaluator {
      * @param value Value of the variable
      */
     public void setVariable(String variable, double value) {
-    	this.variables.put(variable, new Complex(value, 0.0));
+        this.variables.put(variable, new Complex(value, 0.0));
     }
     /**
      * Setter to set the whole <b>variables</b> Map Object at once
@@ -48,11 +48,11 @@ public class ExpressionEvaluator implements Evaluator {
     public void setVariables(Map<String, Complex> variables_){
         this.variables = variables_;
     }
-	/**
-	 * Getter to get individual variables
-	 * @param variable Name of the variable
-	 * @return Complex number representing the value of the variable
-	 */
+    /**
+     * Getter to get individual variables
+     * @param variable Name of the variable
+     * @return Complex number representing the value of the variable
+     */
     public Complex getVariable(String variable){
         return this.variables.get(variable);
     }
@@ -61,7 +61,7 @@ public class ExpressionEvaluator implements Evaluator {
      * @param variable Name of the variable
      */
     public void removeVariable(String variable){
-    	this.variables.remove(variable);
+        this.variables.remove(variable);
     }
     /**
      * Computes a binary operation between 2 operands and returns a Complex number as the result
@@ -153,47 +153,67 @@ public class ExpressionEvaluator implements Evaluator {
                 isCurrentOperandNegative = false;
             }
 
-            if(c == '('){
-                i++;
-                int count = 0;
-                String function = sb.toString().trim();
-                function = function.substring(0, function.length() - 1);
-                StringBuilder subEquation = new StringBuilder();
-                
-                while(equation.charAt(i) != ')' || count != 0){
-                    if(equation.charAt(i) == '(') count++;
-                    else if(equation.charAt(i) == ')') count--;
-                    subEquation.append(equation.charAt(i));
+            if(c == '(') {
+                try {
                     i++;
+                    int count = 0;
+                    String function = sb.toString().trim();
+                    function = function.substring(0, function.length() - 1);
+                    StringBuilder subEquation = new StringBuilder();
+
+                    while (equation.charAt(i) != ')' || count != 0) {
+                        if (equation.charAt(i) == '(') count++;
+                        else if (equation.charAt(i) == ')') count--;
+                        subEquation.append(equation.charAt(i));
+                        i++;
+                    }
+                    if (verbose) System.out.println("SubEquation: " + subEquation);
+
+                    Complex operand = complexEvaluator(subEquation.toString(), verbose)
+                            .multiply(isCurrentOperandNegative ? -1.0 : 1.0);
+                    switch (function) {
+                        case "":
+                            operands.add(operand); break;
+                        case "sin": {
+                            if (verbose) System.out.println("Evaluating : sin(" + operand + ")");
+                            operands.add(operand.sin()); break;
+                        }
+                        case "cos": {
+                            if (verbose) System.out.println("Evaluating : cos(" + operand + ")");
+                            operands.add(operand.cos()); break;
+                        }
+                        case "tan": {
+                            if (verbose) System.out.println("Evaluating : tan(" + operand + ")");
+                            operands.add(operand.sin().divide(operand.cos())); break;
+                        }
+                        case "log": {
+                            if (verbose) System.out.println("Evaluating : log(" + operand + ")");
+                            operands.add(operand.log(Math.E)); break;
+                        }
+                        default: throw new Exception("Function not supported: " + function);
+                    }
+                    i++;
+                    if (i < equation.length()) {
+                        if (equation.charAt(i) != ' ') {
+                            if(terminalSymbols.contains(equation.charAt(i)))
+                                operators.add(equation.charAt(i));
+                            else throw new Exception("Invalid operator: " + equation.charAt(i));
+                        }
+                        else {
+                            i++;
+                            while (i < equation.length() && equation.charAt(i) == ' ') i++;
+                            if (i < equation.length()){
+                                if(terminalSymbols.contains(equation.charAt(i)))
+                                    operators.add(equation.charAt(i));
+                                else throw new Exception("Invalid operator: " + equation.charAt(i));
+                            }
+                        }
+                    }
+                    sb = new StringBuilder();
+                    isCurrentOperandNegative = false;
+                }catch (IndexOutOfBoundsException exc){
+                    throw new Exception("Invalid parenthesis sequence");
                 }
-                if(verbose) System.out.println("SubEquation: " + subEquation);
-                
-                Complex operand = complexEvaluator(subEquation.toString(), verbose)
-                		.multiply(isCurrentOperandNegative ? -1.0 : 1.0);
-                switch(function) {
-	            	case "": operands.add(operand); break;
-	                case "sin": {
-	                	if(verbose) System.out.println("Evaluating : sin("+operand+")");
-	                	operands.add(operand.sin()); break;
-	                }
-	                case "cos": {
-	                	if(verbose) System.out.println("Evaluating : cos("+operand+")");
-	                	operands.add(operand.cos()); break;
-	                }
-	                case "tan": {
-	                	if(verbose) System.out.println("Evaluating : tan("+operand+")");
-	                	operands.add(operand.sin().divide(operand.cos())); break;
-	                }
-	                case "log": {
-	                	if(verbose) System.out.println("Evaluating : log("+operand+")");
-	                	operands.add(operand.log(Math.E)); break;
-	                }
-	                default: throw new Exception("Function not supported: " + function);
-	            } i++;
-                if(i < equation.length())
-                    operators.add(equation.charAt(i));
-                sb = new StringBuilder();
-                isCurrentOperandNegative = false;
             }
         }
         // TODO: implement operator precedence
