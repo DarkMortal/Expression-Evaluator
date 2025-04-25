@@ -72,7 +72,7 @@ public class ExpressionEvaluator implements Evaluator {
      * @return Resultant Complex number
      * @throws Exception
      */
-    private Complex compute(Complex operand1, Complex operand2, char operator, boolean verbose) throws Exception{
+    private Complex compute(Complex operand1, Complex operand2, char operator, boolean verbose) throws Exception {
         if(verbose)
             System.out.println("Evaluating : " + operand1 + " " + operator + " " + operand2);
         if(operator == '/' && operand2.equals(new Complex(0.0, 0.0)))
@@ -118,7 +118,10 @@ public class ExpressionEvaluator implements Evaluator {
      * @return Resultant Complex number
      * @throws Exception
      */
-    public Complex complexEvaluator(String equation, boolean verbose) throws Exception{
+    public Complex complexEvaluator(String equation, boolean verbose) throws Exception {
+        if (equation == null || equation.isEmpty())
+            throw new Exception("Empty equation");
+        
         List<Complex> operands = new ArrayList<>();
         List<Character> operators = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
