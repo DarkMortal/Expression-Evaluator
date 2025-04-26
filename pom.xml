@@ -4,10 +4,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.darkmortal</groupId>
 	<artifactId>complex-equation-evaluator</artifactId>
-	<version>1.0.2</version>
+	<version>1.0.3</version>
 	<name>Complex Equation Evaluator</name>
-	<description>A comprehensive library for evaluating and working with equation containing real
-		and complex numbers.</description>
+	<description>A comprehensive library for evaluating and working with equation containing real and complex numbers.</description>
 
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/junit/junit -->
