@@ -62,5 +62,14 @@ Evaluating : cos(0.28)
 Evaluating : -0.82 + 0.96
 Result: 0.1409
 ```
+## Supported functions and variables
+- `pi` : The constant $\pi$ (3.14)
+- `e` : The euler number $e$ (2.7183)
+- `sin` : The sine function.
+- `cos` : The cosine function.
+- `tan` : The tangent function.
+- `ln` : The natural log function.
+- `log` : The log function with base 10.
+***
 Click here to access the [documentation](https://darkmortal.github.io/Expression-Evaluator/)
 ***
