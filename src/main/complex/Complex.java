@@ -125,6 +125,8 @@ public record Complex(double real, double imaginary) implements complex.ComplexI
      * @return Log of the Complex number
      */
     public Complex log(double base) {
+        if(base == 10)
+            return new Complex(Math.log10(mod()), arg() / Math.log10(base));
         return new Complex(Math.log(mod()) / Math.log(base), arg() / Math.log(base));
     }
 
