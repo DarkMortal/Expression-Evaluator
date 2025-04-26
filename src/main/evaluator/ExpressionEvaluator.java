@@ -191,6 +191,10 @@ public class ExpressionEvaluator implements Evaluator {
                         }
                         case "log": {
                             if (verbose) System.out.println("Evaluating : log(" + operand + ")");
+                            operands.add(operand.log(10)); break;
+                        }
+                        case "ln": {
+                            if (verbose) System.out.println("Evaluating : ln(" + operand + ")");
                             operands.add(operand.log(Math.E)); break;
                         }
                         default: throw new Exception("Function not supported: " + function);
